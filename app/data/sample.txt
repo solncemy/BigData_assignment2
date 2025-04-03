@@ -1,4 +1,0 @@
-Hello
-world
-query
-this is a sample dummy file
