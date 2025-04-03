@@ -8,4 +8,4 @@
 ```bash
 docker compose up 
 ```
-This will create 3 containers, a master node and a worker node for Hadoop, and Cassandra server. The master node will run the script `app.sh` as an entrypoint.
+This will create 3 containers, a master node and a worker node for Hadoop, and Cassandra server. The master node will run the script `app/app.sh` as an entrypoint.
