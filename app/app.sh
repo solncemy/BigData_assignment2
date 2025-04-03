@@ -1,0 +1,22 @@
+#!/bin/bash
+# Start ssh server
+service ssh restart 
+
+# Starting the services
+bash start-services.sh
+
+# Creating a virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Install any packages
+pip install -r requirements.txt  
+
+# Run programs
+python app.py
+
+# Run the indexer
+bash index.sh data/sample.txt
+
+# Run the ranker
+bash search.sh "this is a query!"
