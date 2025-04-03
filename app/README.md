@@ -4,6 +4,10 @@ This folder contains the data folder and all scripts and source code that are re
 ### data
 This folder stores the text documents required to index. Here you can find a sample of 100 documents from `a.parquet` file from the original source.
 
+### mapreduce
+This folder stores the mapper `mapperx.py` and reducer `reducerx.py` scripts for the MapReduce pipelines.
+
+
 ### app.py
 This is a Python file to write code to store index data in Cassandra.
 
