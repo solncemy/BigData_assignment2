@@ -12,8 +12,12 @@ source .venv/bin/activate
 # Install any packages
 pip install -r requirements.txt  
 
-# Run programs
-python app.py
+# Package the virtual env.
+venv-pack -o .venv.tar.gz
+
+# Collect data
+bash prepare_data.sh
+
 
 # Run the indexer
 bash index.sh data/sample.txt

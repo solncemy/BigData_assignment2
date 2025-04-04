@@ -19,6 +19,9 @@ jps -lm
 # outputs a brief report on the overall HDFS filesystem
 hdfs dfsadmin -report
 
+# If namenode in safemode then leave it
+hdfs dfsadmin -safemode leave
+
 # create a directory for spark apps in HDFS
 hdfs dfs -mkdir -p /apps/spark/jars
 hdfs dfs -chmod 744 /apps/spark/jars
@@ -37,3 +40,4 @@ jps -lm
 
 # Create a directory for root user on HDFS
 hdfs dfs -mkdir -p /user/root
+
