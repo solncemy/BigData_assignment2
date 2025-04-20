@@ -54,7 +54,7 @@
 4. **Vector Search**
    ```bash
    python3 app.py
-   ```
+   ``` 
    Vector space and perform vector similarity search.
 
 
