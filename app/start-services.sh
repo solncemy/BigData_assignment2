@@ -1,43 +1,66 @@
 #!/bin/bash
 # This will run only by the master node
 
-# starting HDFS daemons
+export SPARK_HOME=/opt/bitnami/spark
+export HADOOP_HOME=/opt/bitnami/hadoop
+export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$SPARK_HOME/bin:$SPARK_HOME/sbin
+
+mkdir -p $HADOOP_HOME/etc/hadoop
+cat > $HADOOP_HOME/etc/hadoop/core-site.xml << EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+    <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://cluster-master:9000</value>
+    </property>
+</configuration>
+EOF
+
+cat > $HADOOP_HOME/etc/hadoop/hdfs-site.xml << EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+    <property>
+        <name>dfs.replication</name>
+        <value>1</value>
+    </property>
+    <property>
+        <name>dfs.namenode.name.dir</name>
+        <value>file:///opt/bitnami/hadoop/data/namenode</value>
+    </property>
+    <property>
+        <name>dfs.datanode.data.dir</name>
+        <value>file:///opt/bitnami/hadoop/data/datanode</value>
+    </property>
+</configuration>
+EOF
+
+hdfs namenode -format
+
 $HADOOP_HOME/sbin/start-dfs.sh
 
-# starting Yarn daemons
 $HADOOP_HOME/sbin/start-yarn.sh
-# yarn --daemon start resourcemanager
 
-# Start mapreduce history server
+
+
 mapred --daemon start historyserver
 
-
-# track process IDs of services
 jps -lm
 
-# subtool to perform administrator functions on HDFS
-# outputs a brief report on the overall HDFS filesystem
 hdfs dfsadmin -report
 
-# If namenode in safemode then leave it
 hdfs dfsadmin -safemode leave
 
-# create a directory for spark apps in HDFS
 hdfs dfs -mkdir -p /apps/spark/jars
 hdfs dfs -chmod 744 /apps/spark/jars
 
-
-# Copy all jars to HDFS
 hdfs dfs -put /usr/local/spark/jars/* /apps/spark/jars/
 hdfs dfs -chmod +rx /apps/spark/jars/
 
-
-# print version of Scala of Spark
 scala -version
 
-# track process IDs of services
 jps -lm
 
-# Create a directory for root user on HDFS
 hdfs dfs -mkdir -p /user/root
 
